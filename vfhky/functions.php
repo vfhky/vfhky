@@ -32,7 +32,8 @@ function no_autosave() {
 }
 
 include ("includes/theme_options.php");
-include ("includes/widget.php");require 'theme-update-checker.php';
+include ("includes/widget.php");
+require 'theme-update-checker.php';
 $example_update_checker = new ThemeUpdateChecker(
     'vfhky',
     'http://www.huangkeye.cn/upgrade/info.json'
