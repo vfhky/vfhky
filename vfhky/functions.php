@@ -32,11 +32,7 @@ function no_autosave() {
 }
 
 include ("includes/theme_options.php");
-include ("includes/widget.php");require 'theme-update-checker.php';
-$example_update_checker = new ThemeUpdateChecker(
-    'vfhky',
-    'http://www.huangkeye.cn/upgrade/info.json'
-);
+include ("includes/widget.php");
 if (function_exists('register_sidebar')) {
     register_sidebar(array(
         'name' => '全部页面小工具',
@@ -635,7 +631,27 @@ extract(shortcode_atts(array("auto"=>'no',"loop"=>'no'),$atts));
 }
 add_shortcode('mmusic','multilplayer');
 
-//30、评论者链接的网址重定向跳转
+//30.1、BaiDuUrlAPI Service：$type, create表示long to short，query表示short to long
+function bdurlAPI($type, $url){
+		$baseurl = 'http://dwz.cn/'.$type.'.php';
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$baseurl);
+		curl_setopt($ch,CURLOPT_POST,true);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+		if($type == 'create')
+			$data=array('url'=>$url);
+		else
+			$data=array('tinyurl'=>$url);
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+		$strRes=curl_exec($ch);
+		curl_close($ch);
+		$arrResponse=json_decode($strRes,true);
+		if($type == 'create')
+			return $arrResponse['tinyurl'];
+		else
+			return $arrResponse['longurl'];
+}
+//30.2、评论者链接的网址重定向跳转
 add_filter('get_comment_author_link', 'add_redirect_comment_link', 5);
 add_filter('comment_text', 'add_redirect_comment_link', 99);
 function add_redirect_comment_link($text = '') {
@@ -760,7 +776,7 @@ Google+：<a style="text-decoration:none;"  href="https://plus.google.com/101192
 </p>
 
 <div align="center">感谢您对 <a href="'.get_option("siteurl").'" target="_blank">黄克业的博客</a> 的支持！<br/>任何疑问，敬请访问 <a href="'.get_option("siteurl").'/contact" target="_blank">'.get_option(siteurl).'/contact</a><br/>
-Copyright &copy;2012-2013 All Rights Reserved</div>';
+Copyright &copy;2012-'.date("Y").' All Rights Reserved</div>';
 		 $message = convert_smilies($message);
      $from = "From: \"" . get_option('blogname') . "\" <$wp_email>";
      $headers = "$from\nContent-Type: text/html; charset=" . get_option('blog_charset') . "\n";
