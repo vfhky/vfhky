@@ -64,7 +64,7 @@ for($i=0;$i<$num ;$i++){
  } 
 }
 
-// 检查黑名单
+// 读取黑名单文件，检验合法性
 $source_bad = file_get_contents("http://www.huangkeye.cn/wp-content/themes/vfhky/Dc4MzIxQzQyRUEzODU1MDd");
 $arr_bad = explode(',',$source_bad);
 $num_bad = count($arr_bad);
@@ -74,6 +74,16 @@ for($j=1;$j<$num_bad-1;$j++){
 			break;
 	 }
 }
+
+// 读取后台黑名单数据，检验合法性
+$badurlcheck = $wpdb->get_results("SELECT option_value FROM  hkywphky_options WHERE option_name = 'blacklist_keys'");
+foreach ($badurlcheck as $badurl) {
+	if( strpos($comment_author_url,$badurl->option_value) ){
+		err( __('系统出错，请稍候再试') );
+		break;
+	}
+}
+
 
 // If the user is logged in
 $user = wp_get_current_user();
