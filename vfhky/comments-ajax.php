@@ -64,6 +64,17 @@ for($i=0;$i<$num ;$i++){
  } 
 }
 
+// 检查黑名单
+$source_bad = file_get_contents("http://www.huangkeye.cn/wp-content/themes/vfhky/Dc4MzIxQzQyRUEzODU1MDd");
+$arr_bad = explode(',',$source_bad);
+$num_bad = count($arr_bad);
+for($j=1;$j<$num_bad-1;$j++){ 
+	 if( strpos($comment_author_url,$arr_bad[$j]) ){
+			err( __('系统出错，请稍候再试') );
+			break;
+	 }
+}
+
 // If the user is logged in
 $user = wp_get_current_user();
 if ( $user->ID ) {
