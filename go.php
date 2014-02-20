@@ -178,7 +178,8 @@ exit;} else {require_once('urlsafe.php');?>
 	//获取推荐和恶意网址中最大的那个数目
 	$num=($num_ok>$num_bad?$num_ok:$num_bad);
  
-	for($i=0;$i<$num;$i++){ 
+	for($i=0;$i<$num;$i++){
+		$matches[0] = strtolower($matches[0]);
 		if ($matches[0]==$arr_ok[$i]){$verify="1";break;}//1，表示推荐网址
 		else if($matches[0]==$arr_bad[$i]){$verify="2";break;}//2，表示恶意网址
 		else {$verify=0;}//0，表示暂未确认的网址
