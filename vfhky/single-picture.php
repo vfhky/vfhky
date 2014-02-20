@@ -151,7 +151,11 @@
     </div>
 <?php } ?>	
     <div class="footer_bottom">
-	Copyright <?php echo comicpress_copyright(); ?>&nbsp;&nbsp;<a href="https://plus.google.com/101192347122765496150?rel=author" title="vfhky in Google+" target="_blank">vfhky</a>&nbsp;|&nbsp;<a href="http://www.huangkeye.cn" title="黄克业的博客 | ——麻辣的视界">黄克业的博客</a>&nbsp;|&nbsp;<a href="http://www.huangkeye.cn/sitemap.html" title="BaiDu Sitemap" target="_blank">百度Sitemap</a>&nbsp;|&nbsp;<a href="http://www.huangkeye.cn/sitemap.xml" title="Google XML Sitemap"target="_blank">谷歌Sitemap</a>&nbsp;|&nbsp;苏ICP备13016977号&nbsp;|&nbsp;Online:&nbsp;<span class="online"></span><br/>
+	<!--
+  	作为一个节操程序员，请保留底部huishao和vfhky的版权链接信息（当然也不强求）。等你在https://github.com/vfhky/vfhky！
+  -->
+	<a href="https://github.com/vfhky/vfhky" title="GitHub源码" target="_blank">GitHub源码</a>&nbsp;|&nbsp;<a href="http://www.huangkeye.cn/sitemap.html" title="BaiDu Sitemap" target="_blank">百度Sitemap</a>&nbsp;|&nbsp;<a href="http://www.huangkeye.cn/sitemap.xml" title="Google XML Sitemap"target="_blank">谷歌Sitemap</a>&nbsp;|&nbsp;Powered by <a href="http://cn.wordpress.org/" title="WordPress官方中文博客" target="_blank">WordPress</a>&nbsp;|&nbsp;Theme by <a href="http://www.zuifengyun.com/" title="醉风云博客" target="_blank">huishao</a> && <a href="http://www.huangkeye.cn/" title="黄克业的博客">vfhky</a>&nbsp;|&nbsp;Online:&nbsp;<span class="online"></span><br/><br/>
+	Copyright <?php echo comicpress_copyright(); ?> <a href="http://www.huangkeye.cn" title="黄克业的博客 | ——麻辣的视界">黄克业的博客</a>&nbsp;.&nbsp;All Rights Reserved&nbsp;.&nbsp;苏ICP备13016977号<br/>
     </div>
      <div class="clear"></div>
 </div>
