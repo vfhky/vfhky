@@ -152,7 +152,8 @@ exit;} else {require_once('urlsafe.php');?>
   }
   if ($matches[0]==""){
 	$matches[0]="<font color='red'>[未知]</font>";$url="<font color='red'>[获取URL失败]</font>";
-  }else{  
+  }else{
+	$matches[0] = strtolower($matches[0]);  
 	//设置白名单
 	$source_ok = file_get_contents("http://127.0.0.1/1/wp-content/themes/vfhky/MDdFRkM5MDhCMDA1QUI2NzA0NUM");//获取所有的推荐网址
 	$arr_ok = explode(',',$source_ok);
@@ -179,7 +180,6 @@ exit;} else {require_once('urlsafe.php');?>
 	$num=($num_ok>$num_bad?$num_ok:$num_bad);
  
 	for($i=0;$i<$num;$i++){
-		$matches[0] = strtolower($matches[0]);
 		if ($matches[0]==$arr_ok[$i]){$verify="1";break;}//1，表示推荐网址
 		else if($matches[0]==$arr_bad[$i]){$verify="2";break;}//2，表示恶意网址
 		else {$verify=0;}//0，表示暂未确认的网址
