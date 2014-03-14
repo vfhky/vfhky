@@ -29,9 +29,9 @@ exit;} else {require_once('urlsafe.php');?>
     .hide {visibility:hidden;}
     /* remind_block 带icon的消息提示块 */
     .remind_block {overflow:hidden;}
-    .remind_okicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/Verified.png) no-repeat;}
-    .remind_badicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/Forbid.png) no-repeat;}
-    .remind_quesicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/Question.png) no-repeat;}
+    .remind_okicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/public/Verified.png) no-repeat;}
+    .remind_badicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/public/Forbid.png) no-repeat;}
+    .remind_quesicon {float:left;margin-right:10px;display:inline;width:32px;height:32px;background:url(http://www.huangkeye.cn/public/Question.png) no-repeat;}
     .remind_block .remind_content {overflow:hidden;*zoom:1;}
     .remind_block .remind_title {margin-bottom:10px;padding-top:3px;_margin-top:4px;font-weight:bold;font-size:20px;font-family:"Microsoft YaHei","lucida Grande",Verdana;}
     .remind_block .remind_detail {line-height:1.5;font-size:14px;color:#535353;}
@@ -137,15 +137,15 @@ exit;} else {require_once('urlsafe.php');?>
   $url = $_GET["url"]; 
   $url = htmlspecialchars(strip_tags($url));
   //检查URL是IP地址还是域名
-  if( preg_match("/http:\/\/(\d{1,3}\.){3}\d{1,3}/", $url, $matches)) {
+  if( preg_match("/(http:\/\/|https:\/\/)(\d{1,3}\.){3}\d{1,3}/", $url, $matches)) {
 	// 从 URL 中取得IP地址
-	preg_match("/^(http:\/\/){1}?([^\/]+)/i", $url, $matches); 
+	preg_match("/^(http:\/\/|https:\/\/){1}?([^\/]+)/i", $url, $matches); 
 	$host = $matches[2]; 
 	// 从IP中取得后面四段 
 	preg_match("/[^\.\/]+\.[^\.\/]+\.[^\.\/]+\.[^\.\/]+$/", $host, $matches);
   }else{
 	// 从 URL 中取得主机名
-	preg_match("/^(http:\/\/){1}?([^\/]+)/i", $url, $matches); 
+	preg_match("/^(http:\/\/|https:\/\/){1}?([^\/]+)/i", $url, $matches); 
 	$host = $matches[2]; 
 	// 从主机名中取得后面两段 
 	preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $matches);
@@ -153,9 +153,16 @@ exit;} else {require_once('urlsafe.php');?>
   if ($matches[0]==""){
 	$matches[0]="<font color='red'>[未知]</font>";$url="<font color='red'>[获取URL失败]</font>";
   }else{
-	$matches[0] = strtolower($matches[0]);  
+  $matches[0] = strtolower($matches[0]);
 	//设置白名单
-	$source_ok = file_get_contents("http://127.0.0.1/1/wp-content/themes/vfhky/MDdFRkM5MDhCMDA1QUI2NzA0NUM");//获取所有的推荐网址
+	$nice_url = 'http://www.huangkeye.cn/wp-content/themes/vfhky/RkY2QThGNEJCMDdFRkM5MDhCMDA1QUI2NzA0NUM4ODcudHh0';
+	$ch_ok = curl_init();
+	curl_setopt($ch_ok,CURLOPT_URL,$nice_url);
+	curl_setopt($ch_ok,CURLOPT_HEADER,0);
+	curl_setopt($ch_ok,CURLOPT_RETURNTRANSFER,true);
+	curl_setopt($ch_ok,CURLOPT_TIMEOUT,2);
+	$source_ok = curl_exec($ch_ok);
+	curl_close($ch_ok);
 	$arr_ok = explode(',',$source_ok);
 	$arr_ok = str_replace('"','',$arr_ok);//去掉双引号
 	$arr_ok = str_replace("\n", "", str_replace(" ", "", $arr_ok));//去掉空格和换行
@@ -166,7 +173,14 @@ exit;} else {require_once('urlsafe.php');?>
 	$num_ok = count($arr_ok); //推荐网址的数目
   
 	//设置黑名单
-	$source_bad = file_get_contents("http://127.0.0.1/1/wp-content/themes/vfhky/Dc4MzIxQzQyRUEzODU1MDd");
+	$bad_url = 'http://www.huangkeye.cn/wp-content/themes/vfhky/NThCMzg0MDkwODc4MzIxQzQyRUEzODU1MDdBMUUzMUQudHh0';
+	$ch_bad = curl_init();
+	curl_setopt($ch_bad,CURLOPT_URL,$bad_url);
+	curl_setopt($ch_bad,CURLOPT_HEADER,0);
+	curl_setopt($ch_bad,CURLOPT_RETURNTRANSFER,true);
+	curl_setopt($ch_bad,CURLOPT_TIMEOUT,2);
+	$source_bad = curl_exec($ch_bad);
+	curl_close($ch_bad);
 	$arr_bad = explode(',',$source_bad);
 	$arr_bad = str_replace('"','',$arr_bad);
 	$arr_bad = str_replace("\n", "", str_replace(" ", "", $arr_bad));//去掉空格和换行
@@ -179,9 +193,9 @@ exit;} else {require_once('urlsafe.php');?>
 	//获取推荐和恶意网址中最大的那个数目
 	$num=($num_ok>$num_bad?$num_ok:$num_bad);
  
-	for($i=0;$i<$num;$i++){
-		if ($matches[0]==$arr_ok[$i]){$verify="1";break;}//1，表示推荐网址
-		else if($matches[0]==$arr_bad[$i]){$verify="2";break;}//2，表示恶意网址
+	for($i=0;$i<$num;$i++){ 
+		if ($matches[0]==$arr_ok[$i] && strlen($url)< 34){$verify="1";break;}//1，表示推荐网址
+		else if($matches[0]==$arr_bad[$i] || strlen($url)>= 34){$verify="2";break;}//2，表示恶意网址
 		else {$verify=0;}//0，表示暂未确认的网址
 	}
   }
@@ -209,7 +223,7 @@ exit;} else {require_once('urlsafe.php');?>
                   <a href="http://www.huangkeye.cn/contact" title="点击进入 和我联系 页面">[ 申请认证 ]</a>&nbsp;&nbsp;&nbsp;<a href="http://www.huangkeye.cn/siteverify" title="点击进入 网址安全认证 页面">[ 查看已认证的站点 ]</a>
                   <?php }
                   else { ?>
-                  vfhky 判断该站点（<?php echo $matches[0]; ?>）来自某广告商或者某危险诱导链接！因此，我们不推荐您访问该站！
+                  vfhky 判断该站点（<?php echo $matches[0]; ?>）来自广告商、钓鱼链接或者被恶意利用！因此，我们不推荐您访问该链接！
                   <a href="http://www.huangkeye.cn/contact" title="点击进入 和我联系 页面">[ 站长申诉 ]</a>&nbsp;&nbsp;&nbsp;<a href="http://www.huangkeye.cn/siteverify" title="点击进入 网址安全认证 页面">[ 查看已认证的站点 ]</a>
                   <?php }; ?>   
                 </div>
@@ -224,7 +238,7 @@ exit;} else {require_once('urlsafe.php');?>
       </div>
     </div>
     <div class="footer">
-      Copyright ©&nbsp;2012&nbsp;-&nbsp;2013&nbsp;黄克业的博客&nbsp;All&nbsp;Rights&nbsp;Reserved
+      Copyright ©&nbsp;2012-<?php echo date("Y");?>&nbsp;黄克业的博客&nbsp;All&nbsp;Rights&nbsp;Reserved
     </div>
   </div>
   <script>
