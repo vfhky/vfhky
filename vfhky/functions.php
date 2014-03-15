@@ -346,13 +346,22 @@ function new_article($number=10){
 
 //16、检测是否gravatar头像
 function vfhky_checkgravatar($email){
-	$hash = md5(strtolower(trim($email)));
-	$uri = 'http://www.gravatar.com/avatar/' . $hash . '?d=404';
-	$headers = @get_headers($uri);
-	if (!preg_match("|200|", $headers[0]))
-		return 0; /* 无 */
-	else
-		return 1; /* 有 */
+   $email_hash = md5(strtolower(trim($email)));
+   $check_uri = 'http://www.gravatar.com/avatar/' . $email_hash . '?d=404';
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $check_uri);
+   /* 保留response header */
+   curl_setopt($ch, CURLOPT_HEADER, TRUE);
+   /* 去掉response body */
+   curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+   curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+   $result = curl_exec($ch);
+   if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200')
+      return 1;/* 有头像 */
+   else
+      return 0;/* 无头像 */
 }
 
 //17、获取gravatar头像
