@@ -68,7 +68,7 @@
 			<div class="entry_box_b"></div>
 		<?php } ?>
 			<div class="context_b">
-				<?php previous_post_link('【上篇】%link') ?><br/><?php next_post_link('【下篇】%link') ?>
+				<?php if (get_previous_post()){previous_post_link('【上篇】%link');} else echo '【上篇】没有了'; ?><br/><?php if (get_next_post()){ next_post_link('【下篇】%link');} else echo '【下篇】没有了'; ?>
 			</div>
 		<div class="ct"></div>
 		<?php comments_template(); ?>
