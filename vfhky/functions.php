@@ -691,7 +691,7 @@ function bdUrlAPI($type, $url){
 }
 //30.2、评论者链接的网址重定向跳转
 add_filter('get_comment_author_link', 'add_redirect_comment_link', 5);
-//add_filter('comment_text', 'add_redirect_comment_link', 99);
+add_filter('comment_text', 'add_redirect_comment_link', 99);
 function add_redirect_comment_link($text = '') {
     $text = str_replace('href="', 'target="_blank" href="' . get_option('home') . '/go.php?url=', $text);
     $text = str_replace("href='", "target='_blank' href='" . get_option('home') . "/go.php?url=", $text);
