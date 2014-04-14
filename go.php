@@ -194,8 +194,8 @@ exit;} else {require_once('urlsafe.php');?>
 	$num=($num_ok>$num_bad?$num_ok:$num_bad);
  
 	for($i=0;$i<$num;$i++){ 
-		if ($matches[0]==$arr_ok[$i] && strlen($url)< 34){$verify="1";break;}//1，表示推荐网址
-		else if($matches[0]==$arr_bad[$i] || strlen($url)>= 34){$verify="2";break;}//2，表示恶意网址
+		if ($matches[0]==$arr_ok[$i]){$verify="1";break;}//1，表示推荐网址
+		else if($matches[0]==$arr_bad[$i] || strlen($url)>= 54){$verify="2";break;}//2，表示恶意网址
 		else {$verify=0;}//0，表示暂未确认的网址
 	}
   }
